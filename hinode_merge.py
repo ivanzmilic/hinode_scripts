@@ -4,8 +4,6 @@ from astropy.io import fits
 import os
 import sys
 
-SLITSIZE = int(sys.argv[1])
-
 filenames = []
 
 for file in sorted(os.listdir (".")):
@@ -17,6 +15,9 @@ print (len(filenames))
 
 print (filenames[0])
 stokes = fits.open(filenames[0])[0].data
+print (stokes.shape)
+SLITSIZE = stokes.shape[1]
+print ('Slitlength = ', SLITSIZE)
 stokes = stokes.reshape(1,4,SLITSIZE,112)
 
 filenames=filenames[1:]
@@ -28,10 +29,10 @@ for name in filenames:
 stokes = stokes.transpose(2,0,1,3)
 print (stokes.shape)
 
-output = sys.argv[2]
+output = sys.argv[1]
 hdu = fits.PrimaryHDU(stokes)
 hdu.header = fits.open(name)[0].header
-hdu.writeto(output)
+hdu.writeto(output,overwrite=True)
 
 
 
