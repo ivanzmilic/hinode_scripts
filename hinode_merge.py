@@ -4,21 +4,18 @@ from astropy.io import fits
 import os
 import sys
 
-number = int(sys.argv[1])
+SLITSIZE = int(sys.argv[1])
 
 filenames = []
 
 for file in sorted(os.listdir (".")):
 	if file.endswith(".fits"):
-		print file
+		print (file)
 		filenames.append(file)
-print len(filenames)
+print (len(filenames))
 
-#filenames = filenames[:number]
 
-#print filenames
-SLITSIZE = 1024
-print filenames[0]
+print (filenames[0])
 stokes = fits.open(filenames[0])[0].data
 stokes = stokes.reshape(1,4,SLITSIZE,112)
 
@@ -29,7 +26,7 @@ for name in filenames:
 	stokes = np.concatenate((stokes,stokes_temp),axis=0)
 
 stokes = stokes.transpose(2,0,1,3)
-print stokes.shape
+print (stokes.shape)
 
 output = sys.argv[2]
 hdu = fits.PrimaryHDU(stokes)
