@@ -14,8 +14,12 @@ print (len(filenames))
 
 
 print (filenames[0])
-stokes = fits.open(filenames[0])[0].data
+example = fits.open(filenames[0])
+print (example[0].header)
+stokes = example[0].data
 print (stokes.shape)
+
+
 SLITSIZE = stokes.shape[1]
 print ('Slitlength = ', SLITSIZE)
 stokes = stokes.reshape(1,4,SLITSIZE,112)
